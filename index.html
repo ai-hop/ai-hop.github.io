@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f2eee6" />
+    <meta name="description" content="AI Hop — 发现更适合你的 AI 站点。" />
+    <title>AI Hop · AI 站点导航</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <script type="module" src="app.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#directory">跳到站点列表</a>
+    <div class="page-shell" id="app">
+      <header class="site-header">
+        <a class="brand" href="./" aria-label="AI Hop 首页">
+          <span class="brand-mark" aria-hidden="true">AH</span>
+          <span class="brand-name">AI Hop</span>
+        </a>
+        <div class="header-meta">
+          <span class="header-dot" aria-hidden="true"></span>
+          <span>开源整理 · 持续更新</span>
+        </div>
+      </header>
+
+      <main>
+        <section class="intro" aria-labelledby="page-title">
+          <div class="intro-copy">
+            <p class="eyebrow"><span>01</span> AI 站点导航</p>
+            <h1 id="page-title">找到你的<br /><em>下一站。</em></h1>
+            <p class="intro-text">整理各类 AI 中转与公益站点信息，<br class="desktop-only" />注册福利、模型支持和使用门槛一目了然。</p>
+          </div>
+          <div class="intro-note">
+            <span class="note-line"></span>
+            <p>一份由社区维护的<br />轻量站点清单。</p>
+            <span class="note-date">LAST EDIT · 2026.08</span>
+          </div>
+        </section>
+
+        <section class="directory" id="directory" aria-labelledby="directory-title">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow"><span>02</span> 站点目录</p>
+              <h2 id="directory-title">按类型浏览</h2>
+            </div>
+            <p class="section-caption">福利和站点状态可能随时变化<br />注册前请自行判断，谨慎提交信息。</p>
+          </div>
+
+          <nav class="category-tabs" id="category-tabs" aria-label="站点类型">
+            <button class="category-tab is-active" type="button" data-category="public" aria-selected="true">
+              <span>公益站</span><small data-count="public">0</small>
+            </button>
+            <button class="category-tab" type="button" data-category="router" aria-selected="false">
+              <span>中转站</span><small data-count="router">0</small>
+            </button>
+            <button class="category-tab" type="button" data-category="semi-public" aria-selected="false">
+              <span>半公益</span><small data-count="semi-public">0</small>
+            </button>
+          </nav>
+
+          <form class="filter-bar" id="filter-form" role="search">
+            <label class="search-box" for="search-input">
+              <span class="sr-only">搜索站点</span>
+              <input id="search-input" type="search" placeholder="搜索站点、模型或福利" autocomplete="off" />
+              <kbd>/</kbd>
+            </label>
+            <div class="select-group">
+              <label class="select-wrap">状态
+                <select id="status-filter" aria-label="按推荐状态筛选">
+                  <option value="all">全部状态</option>
+                  <option value="recommended">推荐</option>
+                  <option value="not-recommended">暂不推荐</option>
+                  <option value="unknown">情况未明</option>
+                </select>
+              </label>
+              <label class="select-wrap">模型
+                <select id="model-filter" aria-label="按模型类型筛选">
+                  <option value="all">全部模型</option>
+                  <option value="OpenAI">OpenAI</option>
+                  <option value="Claude">Claude</option>
+                  <option value="Gemini">Gemini</option>
+                  <option value="国产模型">国产模型</option>
+                  <option value="生图模型">生图模型</option>
+                </select>
+              </label>
+              <label class="select-wrap">福利
+                <select id="benefit-filter" aria-label="按福利类型筛选">
+                  <option value="all">全部福利</option>
+                  <option value="注册赠送">注册赠送</option>
+                  <option value="每日签到">每日签到</option>
+                  <option value="低倍率">低倍率</option>
+                  <option value="其他">其他</option>
+                </select>
+              </label>
+            </div>
+          </form>
+
+          <div class="list-meta">
+            <p id="result-summary" aria-live="polite">正在加载站点</p>
+            <button class="clear-button is-hidden" id="clear-filters" type="button">清除筛选 <span>×</span></button>
+          </div>
+
+          <ul class="provider-list" id="provider-list" aria-label="提供商列表"></ul>
+          <div class="empty-state is-hidden" id="empty-state" role="status">
+            <span class="empty-number">—</span>
+            <h3 id="empty-title">这里还没有站点</h3>
+            <p id="empty-copy">这个分类暂未收录站点，之后会继续补充。</p>
+          </div>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <p><strong>AI Hop</strong> 是一份非官方的社区整理清单。</p>
+        <p>站点福利、开放状态和服务质量可能变化。使用前请自行核实。</p>
+      </footer>
+    </div>
+  </body>
+</html>

@@ -107,7 +107,7 @@ kbd { padding: 3px 5px; color: var(--faint); border: 1px solid var(--line); bord
 .clear-button span { display: inline-block; margin-left: 4px; font-size: 1rem; line-height: 0; }
 .is-hidden { display: none !important; }
 
-.provider-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; padding: 0; margin: 0; list-style: none; }
+.provider-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; padding: 0; margin: 0; list-style: none; }
 .provider-card { display: flex; flex-direction: column; min-width: 0; min-height: 218px; padding: 21px 22px 20px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 5px 18px rgba(54, 48, 37, .035); animation: reveal .4s both; animation-delay: calc(var(--card-index) * 45ms); transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease; }
 .provider-card:hover { border-color: var(--line-strong); box-shadow: var(--shadow); transform: translateY(-2px); }
 .provider-topline { display: flex; gap: 14px; align-items: flex-start; justify-content: space-between; }
@@ -155,6 +155,7 @@ kbd { padding: 3px 5px; color: var(--faint); border: 1px solid var(--line); bord
   .directory { padding-top: 38px; }
   .category-tab { padding-right: 20px; margin-right: 20px; }
   .category-tab::after { right: 20px; }
+  .provider-list { grid-template-columns: 1fr; }
   .provider-card { grid-template-columns: 1fr; }
   .provider-models { grid-column: 1; }
   .visit-button { width: 100%; }

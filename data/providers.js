@@ -58,7 +58,7 @@ export const providers = [
     url: 'https://api.justwoker.icu/register?aff=kCCD',
     category: 'public',
     status: 'recommended',
-    benefits: ['注册送50刀', '使用邀请码额外送20刀'],
+    benefits: ['注册送50刀', '使用邀请码额外送20刀', , '每日登录随机额度'],
     models: ['claude-opus-5', 'claude-opus-4.8'],
     modelTypes: ['Claude'],
     benefitTypes: ['注册赠送', '邀请返利', '每日签到'],

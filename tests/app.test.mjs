@@ -9,10 +9,10 @@ const fixtures = [
     category: 'public',
     status: 'recommended',
     benefits: ['GitHub注册送175刀', '每日登录送25刀'],
-    modelsText: '模型：GPT-5.6-sol   Claude Opus 4.8   Claude Opus 5',
+    models: ['GPT-5.6-sol', 'Claude Opus 4.8', 'Claude Opus 5'],
     modelTypes: ['OpenAI', 'Claude'],
     benefitTypes: ['注册赠送', '每日签到'],
-    requirements: '需要 GitHub 账号',
+    requirements: '注册门槛：需要 GitHub 账号\n使用门槛：使用人多需要挤',
     note: '',
   },
   {
@@ -21,7 +21,7 @@ const fixtures = [
     category: 'public',
     status: 'recommended',
     benefits: ['Gemini羊毛站，可签到'],
-    modelsText: '模型：Gemini',
+    models: ['Gemini'],
     modelTypes: ['Gemini'],
     benefitTypes: ['每日签到'],
     requirements: '',
@@ -33,7 +33,7 @@ const fixtures = [
     category: 'router',
     status: 'unknown',
     benefits: ['注册赠送额度'],
-    modelsText: '模型信息待补充',
+    models: [],
     modelTypes: [],
     benefitTypes: ['注册赠送'],
     requirements: '',
@@ -44,6 +44,10 @@ const fixtures = [
 test('normalizeText handles nullish values and case', () => {
   assert.equal(normalizeText('  Claude '), 'claude');
   assert.equal(normalizeText(null), '');
+});
+
+test('keeps every model name in the data array unchanged', () => {
+  assert.deepEqual(fixtures[0].models, ['GPT-5.6-sol', 'Claude Opus 4.8', 'Claude Opus 5']);
 });
 
 test('matches provider name without case sensitivity', () => {
@@ -60,6 +64,7 @@ test('matches model names and model type filters', () => {
 test('matches benefits, requirements, and notes', () => {
   assert.equal(matchesProvider(fixtures[0], '175刀', {}), true);
   assert.equal(matchesProvider(fixtures[0], 'github账号', {}), true);
+  assert.equal(matchesProvider(fixtures[0], '使用人多需要挤', {}), true);
   assert.equal(matchesProvider(fixtures[1], '聊天机器人', {}), true);
 });
 

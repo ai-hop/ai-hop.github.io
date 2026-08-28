@@ -11,7 +11,7 @@ function arrayIncludesNormalized(values, target) {
 export function matchesProvider(provider, query = '', filters = {}) {
   const searchableContent = [
     provider.name,
-    provider.modelsText,
+    ...(provider.models || []),
     provider.requirements,
     provider.note,
     ...(provider.benefits || []),
@@ -74,7 +74,13 @@ if (domAvailable) {
 
   function providerCard(provider, index) {
     const benefits = provider.benefits.map((benefit) => `<li>${escapeHtml(benefit)}</li>`).join('');
+    const models = Array.isArray(provider.models) ? provider.models : [];
+    const modelContent = models.length
+      ? `<div class="model-tags" aria-label="支持的模型">${models.map((model) => `<span class="model-tag">${escapeHtml(model)}</span>`).join('')}</div>`
+      : '<p class="model-empty">模型信息待补充</p>';
     const optionalInfo = [provider.requirements, provider.note]
+      .filter(Boolean)
+      .flatMap((content) => String(content).split(/\r?\n/))
       .filter(Boolean)
       .map((content) => `<p class="provider-detail">${escapeHtml(content)}</p>`)
       .join('');
@@ -92,7 +98,8 @@ if (domAvailable) {
         </div>
         <ul class="benefit-list">${benefits}</ul>
         <div class="provider-models">
-          <p class="model-text">${escapeHtml(provider.modelsText)}</p>
+          <span class="models-label">模型</span>
+          ${modelContent}
         </div>
         ${optionalInfo}
       </li>

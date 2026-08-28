@@ -81,26 +81,20 @@ if (domAvailable) {
 
     return `
       <li class="provider-card" style="--card-index: ${index}">
-        <div class="provider-main">
-          <div class="provider-heading">
-            <span class="provider-index">${String(index + 1).padStart(2, '0')}</span>
-            <div>
-              <div class="name-line">
-                <h3>${escapeHtml(provider.name)}</h3>
-                <span class="status-badge ${statusClass[provider.status]}"><span></span>${escapeHtml(statuses[provider.status])}</span>
-              </div>
-              <ul class="benefit-list">${benefits}</ul>
-            </div>
+        <div class="provider-topline">
+          <div class="name-line">
+            <h3>${escapeHtml(provider.name)}</h3>
+            <span class="status-badge ${statusClass[provider.status]}"><span></span>${escapeHtml(statuses[provider.status])}</span>
           </div>
-          ${optionalInfo}
+          <a class="visit-button" href="${escapeHtml(provider.url)}" target="_blank" rel="noopener noreferrer">
+            <span>访问</span><span class="arrow" aria-hidden="true">↗</span>
+          </a>
         </div>
+        <ul class="benefit-list">${benefits}</ul>
         <div class="provider-models">
-          <p class="model-label">SUPPORTED MODELS</p>
           <p class="model-text">${escapeHtml(provider.modelsText)}</p>
         </div>
-        <a class="visit-button" href="${escapeHtml(provider.url)}" target="_blank" rel="noopener noreferrer">
-          <span>访问站点</span><span class="arrow" aria-hidden="true">↗</span>
-        </a>
+        ${optionalInfo}
       </li>
     `;
   }

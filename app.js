@@ -4,6 +4,49 @@ export function normalizeText(value) {
   return String(value ?? '').toLocaleLowerCase().replace(/\s+/g, '');
 }
 
+export function formatRequirements(requirements) {
+  const lines = String(requirements ?? '')
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean);
+  const restrictionParts = [];
+  const otherLines = [];
+
+  lines.forEach((line) => {
+    const match = line.match(/^(?:注册门槛|使用门槛|限制)：?\s*(.*)$/);
+    if (match) restrictionParts.push(match[1]);
+    else otherLines.push(line);
+  });
+
+  return [
+    ...(restrictionParts.length ? [`限制：${restrictionParts.join('，')}`] : []),
+    ...otherLines,
+  ];
+}
+
+function modelTagTone(model) {
+  const normalizedModel = normalizeText(model);
+  if (normalizedModel.includes('deepseek')) return 'deepseek';
+  if (normalizedModel.includes('glm') || normalizedModel.includes('qwen')) return '国产';
+  if (normalizedModel.includes('gpt')) return 'gpt';
+  if (normalizedModel.includes('claudeopus5')) return 'claude-new';
+  if (normalizedModel.includes('claude')) return 'claude';
+  if (normalizedModel.includes('gemini')) return 'gemini';
+  return 'default';
+}
+
+function modelTagIcon(tone) {
+  return {
+    claude: '✳',
+    'claude-new': '✳',
+    deepseek: '◈',
+    国产: '⁙',
+    gpt: '◉',
+    gemini: '✦',
+    default: '•',
+  }[tone];
+}
+
 function arrayIncludesNormalized(values, target) {
   return Array.isArray(values) && values.some((value) => normalizeText(value) === normalizeText(target));
 }
@@ -76,11 +119,13 @@ if (domAvailable) {
     const benefits = provider.benefits.map((benefit) => `<li>${escapeHtml(benefit)}</li>`).join('');
     const models = Array.isArray(provider.models) ? provider.models : [];
     const modelContent = models.length
-      ? `<div class="model-tags" aria-label="支持的模型">${models.map((model) => `<span class="model-tag">${escapeHtml(model)}</span>`).join('')}</div>`
+      ? `<div class="model-tags" aria-label="支持的模型">${models.map((model) => {
+          const tone = modelTagTone(model);
+          return `<span class="model-tag model-tag-${tone}"><span class="model-icon" aria-hidden="true">${modelTagIcon(tone)}</span><span>${escapeHtml(model)}</span></span>`;
+        }).join('')}</div>`
       : '<p class="model-empty">模型信息待补充</p>';
-    const optionalInfo = [provider.requirements, provider.note]
+    const optionalInfo = [...formatRequirements(provider.requirements), provider.note]
       .filter(Boolean)
-      .flatMap((content) => String(content).split(/\r?\n/))
       .filter(Boolean)
       .map((content) => `<p class="provider-detail">${escapeHtml(content)}</p>`)
       .join('');

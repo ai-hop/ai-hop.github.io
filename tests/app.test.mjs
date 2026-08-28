@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { filterProviders, matchesProvider, normalizeText } from '../app.js';
+import { filterProviders, formatRequirements, matchesProvider, normalizeText } from '../app.js';
 
 const fixtures = [
   {
@@ -48,6 +48,12 @@ test('normalizeText handles nullish values and case', () => {
 
 test('keeps every model name in the data array unchanged', () => {
   assert.deepEqual(fixtures[0].models, ['GPT-5.6-sol', 'Claude Opus 4.8', 'Claude Opus 5']);
+});
+
+test('merges registration and usage thresholds into one restriction line', () => {
+  assert.deepEqual(formatRequirements('注册门槛：仅支持 LinuxDo 注册\n使用门槛：使用人多需要挤'), [
+    '限制：仅支持 LinuxDo 注册，使用人多需要挤',
+  ]);
 });
 
 test('matches provider name without case sensitivity', () => {

@@ -23,7 +23,7 @@ export const providers = [
     models: ['claude-opus-4.8', 'gpt-5.6-sol', 'gemini-2.5-pro'],
     modelTypes: ['OpenAI', 'Claude'],
     benefitTypes: ['注册赠送', '每日签到'],
-    requirements: '注册门槛：仅支持LinuxDo注册\n使用门槛：使用人多需要挤',
+    requirements: '限制：仅支持 LinuxDo 注册，使用人多需要挤',
     note: '',
   },
   {

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { filterProviders, formatRequirements, matchesProvider, normalizeText } from '../app.js';
+import { filterProviders, formatRequirements, matchesProvider, normalizeText, sortByStatus } from '../app.js';
 
 const fixtures = [
   {
@@ -91,4 +91,41 @@ test('combines query and filters with AND semantics', () => {
 
 test('returns an empty array when nothing matches', () => {
   assert.deepEqual(filterProviders(fixtures, 'public', '不存在', {}), []);
+});
+
+test('sortByStatus orders by recommendation level without mutating the input', () => {
+  const mixed = [
+    { id: 'a', status: 'not-recommended' },
+    { id: 'b', status: 'average' },
+    { id: 'c', status: 'unknown' },
+    { id: 'd', status: 'recommended' },
+  ];
+
+  assert.deepEqual(sortByStatus(mixed).map((provider) => provider.id), ['d', 'b', 'a', 'c']);
+  assert.deepEqual(mixed.map((provider) => provider.id), ['a', 'b', 'c', 'd']);
+});
+
+test('sortByStatus keeps data order within the same level and puts unknown statuses last', () => {
+  const sameLevel = [
+    { id: 'first', status: 'recommended' },
+    { id: 'second', status: 'recommended' },
+    { id: 'legacy', status: 'retired' },
+    { id: 'third', status: 'recommended' },
+  ];
+
+  assert.deepEqual(sortByStatus(sameLevel).map((provider) => provider.id), ['first', 'second', 'third', 'legacy']);
+});
+
+test('filterProviders returns recommended sites before lower levels', () => {
+  const ranked = [
+    { id: 'unknown-site', category: 'public', status: 'unknown', benefits: [] },
+    { id: 'weak-site', category: 'public', status: 'not-recommended', benefits: [] },
+    { id: 'ok-site', category: 'public', status: 'average', benefits: [] },
+    { id: 'top-site', category: 'public', status: 'recommended', benefits: [] },
+  ];
+
+  assert.deepEqual(
+    filterProviders(ranked, 'public').map((provider) => provider.id),
+    ['top-site', 'ok-site', 'weak-site', 'unknown-site'],
+  );
 });

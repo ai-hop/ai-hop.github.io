@@ -86,8 +86,21 @@ export function matchesProvider(provider, query = '', filters = {}) {
   return queryMatches && statusMatches && modelMatches && benefitMatches;
 }
 
+const statusOrder = Object.keys(statuses);
+
+export function statusRank(status) {
+  const index = statusOrder.indexOf(status);
+  return index === -1 ? statusOrder.length : index;
+}
+
+export function sortByStatus(providerList) {
+  return [...providerList].sort((a, b) => statusRank(a.status) - statusRank(b.status));
+}
+
 export function filterProviders(providerList, activeCategory, query = '', filters = {}) {
-  return providerList.filter((provider) => provider.category === activeCategory && matchesProvider(provider, query, filters));
+  return sortByStatus(
+    providerList.filter((provider) => provider.category === activeCategory && matchesProvider(provider, query, filters)),
+  );
 }
 
 const domAvailable = typeof document !== 'undefined';

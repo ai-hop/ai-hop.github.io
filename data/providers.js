@@ -2,6 +2,7 @@ export const categories = {
   router: '中转站',
   'semi-public': '半公益',
   public: '公益站',
+  agent: 'Agent智能体',
 };
 
 export const statuses = {
@@ -9,8 +10,6 @@ export const statuses = {
   'not-recommended': '暂不推荐',
   unknown: '情况未明',
 };
-
-const sharedModels = ['GPT-5.6-sol', 'Claude Opus 4.8', 'Claude Opus 5'];
 
 export const providers = [
   {
@@ -76,6 +75,19 @@ export const providers = [
     modelTypes: ['OpenAI', 'Claude'],
     benefitTypes: ['限时活动'],
     requirements: '限制：邮箱注册',
+    note: '',
+  },
+  {
+    id: 'workbuddy',
+    name: 'WorkBuddy',
+    url: 'https://www.workbuddy.cn/events/invite?inviteCode=ny34m704y1',
+    category: 'agent',
+    status: 'recommended',
+    benefits: ['注册送500积分', '邀请链接赠送2000积分', '做任务赚积分'],
+    models: ['Hy系列', 'GLM系列', 'Kimi系列', 'MiniMax-M3', 'DeepSeek V4'],
+    modelTypes: ['国产模型'],
+    benefitTypes: ['注册赠送', '邀请返利', '其他'],
+    requirements: '限制：积分有使用期限',
     note: '',
   },
   // {

@@ -1,5 +1,5 @@
 export const categories = {
-  router: '中转站',
+  router: '付费中转站',
   'semi-public': '半公益',
   public: '公益站',
   agent: 'Agent智能体',
@@ -7,6 +7,7 @@ export const categories = {
 
 export const statuses = {
   recommended: '推荐',
+  average: '一般',
   'not-recommended': '暂不推荐',
   unknown: '情况未明',
 };
@@ -76,6 +77,19 @@ export const providers = [
     benefitTypes: ['限时活动'],
     requirements: '限制：邮箱注册',
     note: '',
+  },
+  {
+    id: 'true-sota',
+    name: 'True SOTA',
+    url: 'https://true-sota.com/register?aff=VTCW58DKEFDJ',
+    category: 'router',
+    status: 'average',
+    benefits: ['注册赠送20刀'],
+    models: ['claude系列', 'gpt系列'],
+    modelTypes: ['OpenAI', 'Claude'],
+    benefitTypes: ['注册赠送', '低倍率'],
+    requirements: '限制：渠道有点炸',
+    note: 'gpt 1x 倍率，claude 0.3x 倍率',
   },
   {
     id: 'workbuddy',

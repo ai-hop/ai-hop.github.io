@@ -116,6 +116,7 @@ kbd { padding: 3px 5px; color: var(--faint); border: 1px solid var(--line); bord
 .status-badge { display: inline-flex; gap: 5px; align-items: center; padding: 4px 8px; border-radius: 999px; font-size: .61rem; font-weight: 600; line-height: 1; white-space: nowrap; }
 .status-badge > span { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
 .status-recommended { color: var(--mint); background: var(--mint-bg); }
+.status-average { color: var(--amber); background: var(--amber-bg); }
 .status-not-recommended { color: var(--accent-deep); background: #f6dcd3; }
 .status-unknown { color: var(--slate); background: var(--slate-bg); }
 .benefit-list { display: flex; flex-wrap: wrap; gap: 6px; padding: 0; margin: 15px 0 17px; list-style: none; }

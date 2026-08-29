@@ -100,6 +100,7 @@ if (domAvailable) {
 
   const statusClass = {
     recommended: 'status-recommended',
+    average: 'status-average',
     'not-recommended': 'status-not-recommended',
     unknown: 'status-unknown',
   };

@@ -47,6 +47,22 @@ function modelTagIcon(tone) {
   }[tone];
 }
 
+export function rateTone(rate) {
+  const value = Number.parseFloat(String(rate ?? ''));
+  if (!Number.isFinite(value)) return 'default';
+  if (value < 1) return 'low';
+  if (value > 1) return 'high';
+  return 'base';
+}
+
+export function benefitText(benefit) {
+  return typeof benefit === 'string' ? benefit : String(benefit?.text ?? '');
+}
+
+export function isExpiredBenefit(benefit) {
+  return Boolean(benefit) && typeof benefit === 'object' && Boolean(benefit.expired);
+}
+
 function arrayIncludesNormalized(values, target) {
   return Array.isArray(values) && values.some((value) => normalizeText(value) === normalizeText(target));
 }
@@ -57,7 +73,8 @@ export function matchesProvider(provider, query = '', filters = {}) {
     ...(provider.models || []),
     provider.requirements,
     provider.note,
-    ...(provider.benefits || []),
+    ...(provider.benefits || []).map(benefitText),
+    ...(provider.rates || []).flatMap((entry) => [entry.model, entry.rate]),
   ].map(normalizeText).join(' ');
   const normalizedQuery = normalizeText(query);
 
@@ -117,7 +134,10 @@ if (domAvailable) {
   }
 
   function providerCard(provider, index) {
-    const benefits = provider.benefits.map((benefit) => `<li>${escapeHtml(benefit)}</li>`).join('');
+    const benefits = provider.benefits.map((benefit) => {
+      const isExpired = Boolean(benefit && typeof benefit === 'object' && benefit.expired);
+      return `<li${isExpired ? ' class="benefit-expired"' : ''}>${escapeHtml(benefitText(benefit))}${isExpired ? '<span class="sr-only">（已结束）</span>' : ''}</li>`;
+    }).join('');
     const models = Array.isArray(provider.models) ? provider.models : [];
     const modelContent = models.length
       ? `<div class="model-tags" aria-label="支持的模型">${models.map((model) => {
@@ -125,6 +145,15 @@ if (domAvailable) {
           return `<span class="model-tag model-tag-${tone}"><span class="model-icon" aria-hidden="true">${modelTagIcon(tone)}</span><span>${escapeHtml(model)}</span></span>`;
         }).join('')}</div>`
       : '<p class="model-empty">模型信息待补充</p>';
+    const rates = Array.isArray(provider.rates) ? provider.rates : [];
+    const rateContent = rates.length
+      ? `<span class="rate-label">倍率</span>
+        <div class="rate-row" aria-label="计费倍率">${rates.map((entry) => `
+          <span class="rate-pill rate-pill-${modelTagTone(entry.model)}">
+            <span class="rate-model">${escapeHtml(entry.model)}</span>
+            <span class="rate-value">${escapeHtml(entry.rate)}</span>
+          </span>`).join('')}</div>`
+      : '';
     const optionalInfo = [...formatRequirements(provider.requirements), provider.note]
       .filter(Boolean)
       .filter(Boolean)
@@ -146,6 +175,7 @@ if (domAvailable) {
         <div class="provider-models">
           <span class="models-label">模型</span>
           ${modelContent}
+          ${rateContent}
         </div>
         ${optionalInfo}
       </li>

@@ -88,7 +88,7 @@ export const providers = [
     models: ['claude系列', 'gpt系列'],
     modelTypes: ['OpenAI', 'Claude'],
     benefitTypes: ['注册赠送', '低倍率'],
-    requirements: '限制：渠道有点炸',
+    requirements: '限制：gpt渠道有点炸',
     note: 'gpt 1x 倍率，claude 0.3x 倍率',
   },
   {

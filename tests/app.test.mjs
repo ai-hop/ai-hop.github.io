@@ -105,6 +105,40 @@ test('sortByStatus orders by recommendation level without mutating the input', (
   assert.deepEqual(mixed.map((provider) => provider.id), ['a', 'b', 'c', 'd']);
 });
 
+test('sortByStatus ranks ratings within the same status without mutating input', () => {
+  const mixed = [
+    { id: 'recommended-3', status: 'recommended', rating: 3 },
+    { id: 'recommended-5', status: 'recommended', rating: 5 },
+    { id: 'average-5', status: 'average', rating: 5 },
+    { id: 'recommended-4', status: 'recommended', rating: 4 },
+  ];
+
+  assert.deepEqual(
+    sortByStatus(mixed).map((provider) => provider.id),
+    ['recommended-5', 'recommended-4', 'recommended-3', 'average-5'],
+  );
+  assert.deepEqual(mixed.map((provider) => provider.id), [
+    'recommended-3',
+    'recommended-5',
+    'average-5',
+    'recommended-4',
+  ]);
+});
+
+test('sortByStatus defaults missing or invalid ratings to three stars and preserves ties', () => {
+  const mixed = [
+    { id: 'missing', status: 'recommended' },
+    { id: 'invalid', status: 'recommended', rating: 9 },
+    { id: 'three', status: 'recommended', rating: 3 },
+    { id: 'same', status: 'recommended', rating: 3 },
+  ];
+
+  assert.deepEqual(
+    sortByStatus(mixed).map((provider) => provider.id),
+    ['missing', 'invalid', 'three', 'same'],
+  );
+});
+
 test('sortByStatus keeps data order within the same level and puts unknown statuses last', () => {
   const sameLevel = [
     { id: 'first', status: 'recommended' },

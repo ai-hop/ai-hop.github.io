@@ -93,8 +93,17 @@ export function statusRank(status) {
   return index === -1 ? statusOrder.length : index;
 }
 
+function ratingValue(rating) {
+  const value = Number(rating);
+  return Number.isInteger(value) && value >= 1 && value <= 5 ? value : 3;
+}
+
 export function sortByStatus(providerList) {
-  return [...providerList].sort((a, b) => statusRank(a.status) - statusRank(b.status));
+  return [...providerList].sort((a, b) => {
+    const statusDifference = statusRank(a.status) - statusRank(b.status);
+    if (statusDifference !== 0) return statusDifference;
+    return ratingValue(b.rating) - ratingValue(a.rating);
+  });
 }
 
 export function filterProviders(providerList, activeCategory, query = '', filters = {}) {
@@ -146,6 +155,11 @@ if (domAvailable) {
       .replaceAll("'", '&#039;');
   }
 
+  function ratingMarkup(rating) {
+    const value = ratingValue(rating);
+    return `<span class="provider-rating" aria-label="推荐程度：${value} 星"><span aria-hidden="true">${'★'.repeat(value)}${'☆'.repeat(5 - value)}</span></span>`;
+  }
+
   function providerCard(provider, index) {
     const benefits = provider.benefits.map((benefit) => {
       const isExpired = Boolean(benefit && typeof benefit === 'object' && benefit.expired);
@@ -179,6 +193,7 @@ if (domAvailable) {
           <div class="name-line">
             <h3>${escapeHtml(provider.name)}</h3>
             <span class="status-badge ${statusClass[provider.status]}"><span></span>${escapeHtml(statuses[provider.status])}</span>
+            ${ratingMarkup(provider.rating)}
           </div>
           <a class="visit-button" href="${escapeHtml(provider.url)}" target="_blank" rel="noopener noreferrer">
             <span>访问</span><span class="arrow" aria-hidden="true">↗</span>

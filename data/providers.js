@@ -125,6 +125,23 @@ export const providers = [
     note: '',
   },
   {
+    id: 'yetoken',
+    name: 'yetoken',
+    url: 'https://yetoken.cc.cd/sign-up?aff=TcaA',
+    category: 'public',
+    status: 'recommended',
+    benefits: [],
+    models: ['gpt系列', '国模系列'],
+    modelTypes: ['OpenAI', '国产模型'],
+    benefitTypes: [],
+    rates: [
+      { model: 'gpt', rate: '5x' },
+      { model: '国模', rate: '0.1-6x' },
+    ],
+    requirements: '限制：支持邮箱和 LinuxDo 注册，使用 LDC 充值',
+    note: '',
+  },
+  {
     id: 'yunshu-ai',
     name: '云枢AI',
     url: 'https://yunshuapi.site/sign-up?aff=8tfg',

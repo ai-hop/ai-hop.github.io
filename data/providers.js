@@ -209,7 +209,7 @@ export const providers = [
     benefits: ['新用户注册赠送5刀额度', '使用邀请码赠送2刀额度', '每日随机签到额度'],
     models: ['claude系列', 'gpt系列', 'gemini系列'],
     modelTypes: ['OpenAI', 'Claude', 'Gemini'],
-    benefitTypes: ['注册赠送', '邀请返利', '每日签到'],
+    benefitTypes: ['注册赠送', '邀请返利', '每日签到(0-2刀)'],
     rates: [
       { model: 'claude', rate: '1x' },
       { model: 'gpt', rate: '1x' },

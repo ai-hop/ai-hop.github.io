@@ -327,6 +327,23 @@ export const providers = [
     note: '',
   },
   {
+    id: 'sharezzz',
+    name: 'Sharezzz',
+    url: 'https://www.sharezzz.com/register?aff=NEM53TJESMS2',
+    category: 'router',
+    status: 'recommended',
+    rating: 5,
+    benefits: ['注册赠送1刀', '加群可领50刀订阅'],
+    models: ['gpt系列'],
+    modelTypes: ['OpenAI'],
+    benefitTypes: ['注册赠送', '低倍率', '其他'],
+    rates: [
+      { model: 'gpt', rate: '1x' },
+    ],
+    requirements: '限制：需进群找客服领取50刀订阅',
+    note: '',
+  },
+  {
     id: 'workbuddy',
     name: 'WorkBuddy',
     url: 'https://www.workbuddy.cn/events/invite?inviteCode=ny34m704y1',

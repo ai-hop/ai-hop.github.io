@@ -130,13 +130,22 @@ kbd { padding: 3px 5px; color: var(--faint); border: 1px solid var(--line); bord
 .provider-topline { display: flex; gap: 12px; align-items: flex-start; justify-content: space-between; }
 .name-line { display: flex; flex: 1 1 auto; min-width: 0; flex-wrap: wrap; gap: 8px; align-items: center; }
 .name-line h2 { flex: 0 1 auto; width: auto; min-width: 0; margin: 0 0 2px; overflow-wrap: anywhere; font-family: Manrope, 'Noto Sans SC', sans-serif; font-size: 1.04rem; font-weight: 800; letter-spacing: -.05em; line-height: 1.2; }
-.status-badge { display: inline-flex; gap: 5px; align-items: center; padding: 4px 7px; border-radius: 4px; font-size: .6rem; font-weight: 600; }
-.status-badge > span { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+.status-badge { display: inline-flex; align-items: center; padding: 4px 7px; border-radius: 4px; font-size: .6rem; font-weight: 600; }
 .status-recommended { color: var(--mint); background: var(--mint-bg); }
 .status-average { color: var(--amber); background: var(--amber-bg); }
 .status-not-recommended { color: var(--accent-deep); background: #f9ded6; }
 .status-unknown { color: var(--slate); background: var(--slate-bg); }
 .provider-rating { color: #c98d37; font-size: .61rem; letter-spacing: .03em; }
+.provider-highlights { position: relative; z-index: 2; display: inline-flex; align-items: center; }
+.provider-highlights-trigger { padding: 0 0 2px; color: var(--muted); background: transparent; border: 0; font: inherit; font-size: .6rem; font-weight: 600; line-height: 1.2; text-decoration: underline; text-decoration-style: dotted; text-decoration-thickness: 1px; text-underline-offset: 3px; cursor: pointer; }
+.provider-highlights-trigger:hover, .provider-highlights-trigger:focus-visible { color: var(--ink); outline: 0; }
+.provider-highlights-count { margin-left: 3px; color: var(--accent); font-family: 'DM Mono', monospace; font-size: .55rem; text-decoration: none; }
+.provider-highlights-popover { position: absolute; top: calc(100% + 11px); right: -8px; width: 148px; padding: 11px 12px 10px; color: #fffaf3; background: #332d26; border: 1px solid #51483c; border-radius: 8px; box-shadow: 0 14px 30px rgba(48, 39, 28, .2); opacity: 0; visibility: hidden; pointer-events: none; transform: translateY(-4px) scale(.97); transform-origin: top right; transition: opacity .18s ease, transform .18s ease, visibility .18s ease; }
+.provider-highlights-popover::before { position: absolute; top: -6px; right: 19px; width: 10px; height: 10px; background: #332d26; border-top: 1px solid #51483c; border-left: 1px solid #51483c; content: ''; transform: rotate(45deg); }
+.provider-highlights-title { display: block; padding-bottom: 7px; color: #e6b49d; font-size: .59rem; font-weight: 700; letter-spacing: .04em; }
+.provider-highlights-list { display: grid; gap: 5px; padding: 0; margin: 0; list-style: none; }
+.provider-highlights-list li { padding-top: 5px; border-top: 1px solid rgba(255, 250, 243, .15); color: #fffaf3; font-size: .68rem; line-height: 1.3; }
+.provider-highlights:hover .provider-highlights-popover, .provider-highlights:focus-within .provider-highlights-popover, .provider-highlights.is-open .provider-highlights-popover { opacity: 1; visibility: visible; pointer-events: auto; transform: translateY(0) scale(1); }
 .visit-button { display: inline-flex; flex-shrink: 0; gap: 6px; align-items: center; justify-content: center; min-width: 78px; padding: 7px 9px; color: var(--muted); background: transparent; border: 1px solid var(--line-strong); border-radius: 5px; text-decoration: none; font-size: .64rem; transition: background .2s ease, color .2s ease, border-color .2s ease; }
 .visit-button:hover { color: var(--card); background: var(--ink); border-color: var(--ink); }
 .arrow { font-size: .9rem; line-height: .5; }
@@ -213,5 +222,7 @@ kbd { padding: 3px 5px; color: var(--faint); border: 1px solid var(--line); bord
   .provider-topline { gap: 10px; }
   .name-line { flex: 1 1 auto; }
   .name-line h2 { font-size: 1rem; letter-spacing: -.04em; }
+  .provider-highlights-popover { right: auto; left: 0; transform-origin: top left; }
+  .provider-highlights-popover::before { right: auto; left: 19px; }
   .visit-button { width: auto; min-width: 72px; padding-inline: 8px; }
 }

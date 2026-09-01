@@ -172,6 +172,24 @@ if (domAvailable) {
     return `<span class="provider-rating" role="img" aria-label="推荐程度：${value} 星"><span aria-hidden="true">${'★'.repeat(value)}${'☆'.repeat(5 - value)}</span></span>`;
   }
 
+  function providerHighlightsMarkup(provider) {
+    const tags = Array.isArray(provider.tags) ? provider.tags.filter(Boolean) : [];
+    if (tags.length === 0) return '';
+
+    const popoverId = `provider-highlights-${provider.id}`;
+    const items = tags.map((tag) => `<li>${escapeHtml(tag)}</li>`).join('');
+    return `
+      <div class="provider-highlights">
+        <button class="provider-highlights-trigger" type="button" aria-expanded="false" aria-controls="${popoverId}" aria-label="查看 ${escapeHtml(provider.name)} 的个人评价">
+          <span>个人评价</span><span class="provider-highlights-count">${tags.length}</span>
+        </button>
+        <div class="provider-highlights-popover" id="${popoverId}" role="tooltip" aria-hidden="true">
+          <span class="provider-highlights-title">个人评价</span>
+          <ul class="provider-highlights-list">${items}</ul>
+        </div>
+      </div>`;
+  }
+
   function verificationMarkup(provider) {
     const isVerified = Boolean(provider.benefitVerifiedAt);
     return `<p class="verification-meta ${isVerified ? 'is-verified' : 'is-pending'}">
@@ -212,8 +230,9 @@ if (domAvailable) {
         <div class="provider-topline">
           <div class="name-line">
             <h2>${escapeHtml(provider.name)}</h2>
-            <span class="status-badge ${statusClass[provider.status]}"><span></span>${escapeHtml(statuses[provider.status])}</span>
+            <span class="status-badge ${statusClass[provider.status]}">${escapeHtml(statuses[provider.status])}</span>
             ${ratingMarkup(provider.rating)}
+            ${providerHighlightsMarkup(provider)}
           </div>
           <a class="visit-button" href="${escapeHtml(provider.url)}" target="_blank" rel="noopener noreferrer">
             <span>打开站点</span><span class="arrow" aria-hidden="true">↗</span>
@@ -293,6 +312,36 @@ if (domAvailable) {
     if (!tab) return;
     state.activeCategory = tab.dataset.category;
     render();
+  });
+
+  function closeHighlightPopovers(except = null) {
+    elements.list.querySelectorAll('.provider-highlights.is-open').forEach((wrapper) => {
+      if (wrapper === except) return;
+      wrapper.classList.remove('is-open');
+      wrapper.querySelector('.provider-highlights-trigger')?.setAttribute('aria-expanded', 'false');
+      wrapper.querySelector('.provider-highlights-popover')?.setAttribute('aria-hidden', 'true');
+    });
+  }
+
+  elements.list.addEventListener('click', (event) => {
+    const trigger = event.target.closest('.provider-highlights-trigger');
+    if (!trigger) return;
+
+    const wrapper = trigger.closest('.provider-highlights');
+    const isOpen = !wrapper.classList.contains('is-open');
+    closeHighlightPopovers(isOpen ? wrapper : null);
+    wrapper.classList.toggle('is-open', isOpen);
+    trigger.setAttribute('aria-expanded', String(isOpen));
+    wrapper.querySelector('.provider-highlights-popover')?.setAttribute('aria-hidden', String(!isOpen));
+  });
+
+  document.addEventListener('click', (event) => {
+    if (!event.target.closest('.provider-highlights')) closeHighlightPopovers();
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape') return;
+    closeHighlightPopovers();
   });
 
   elements.search.addEventListener('input', (event) => {

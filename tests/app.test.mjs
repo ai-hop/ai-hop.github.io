@@ -89,6 +89,7 @@ test('contains the Cheap semi-public provider with the requested offer', () => {
     category: 'semi-public',
     status: 'average',
     rating: 3,
+    tags: ['速度快', '小贵'],
     benefits: ['注册送20刀', '每日签到20刀'],
     models: ['gpt系列'],
     modelTypes: ['OpenAI'],

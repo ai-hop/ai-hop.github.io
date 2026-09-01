@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { filterProviders, formatRequirements, formatVerificationDate, matchesProvider, matchesTaxonomy, normalizeText, sortByStatus } from '../app.js';
+import { providers } from '../data/providers.js';
 
 const fixtures = [
   {
@@ -30,7 +31,7 @@ const fixtures = [
   {
     id: 'router-paid',
     name: 'Private Router',
-    category: 'router',
+    category: 'paid',
     status: 'unknown',
     benefits: ['注册赠送额度'],
     models: [],
@@ -78,6 +79,31 @@ test('formats benefit verification dates to day precision', () => {
   assert.equal(formatVerificationDate(null), '待核验');
 });
 
+test('contains the Geili paid provider with the requested offer', () => {
+  const geili = providers.find((provider) => provider.id === 'geili');
+
+  assert.deepEqual(geili, {
+    id: 'geili',
+    name: 'Geili',
+    url: 'https://sub.geiliapi.com/register?aff=AW6UN6LC8PKN',
+    category: 'paid',
+    status: 'average',
+    rating: 3,
+    benefits: ['使用邀请码进群20刀额度券（获取截止：2026.09.18 18:00）'],
+    models: ['claude系列', 'gpt系列', '国模系列'],
+    modelTypes: ['Claude', 'OpenAI', '国产模型'],
+    benefitTypes: ['邀请返利', '低倍率'],
+    benefitVerifiedAt: '2026-09-01',
+    rates: [
+      { model: 'gpt', rate: '0.15-0.2x' },
+      { model: 'claude', rate: '0.2-1.1x' },
+      { model: '国模', rate: '0.2-0.45x' },
+    ],
+    requirements: '限制：需使用邀请码并进群领取额度券',
+    note: '',
+  });
+});
+
 test('matches benefits, requirements, and notes', () => {
   assert.equal(matchesProvider(fixtures[0], '175刀', {}), true);
   assert.equal(matchesProvider(fixtures[0], 'github账号', {}), true);
@@ -86,7 +112,7 @@ test('matches benefits, requirements, and notes', () => {
 });
 
 test('filters by category', () => {
-  assert.deepEqual(filterProviders(fixtures, 'router'), [fixtures[2]]);
+  assert.deepEqual(filterProviders(fixtures, 'paid'), [fixtures[2]]);
   assert.deepEqual(filterProviders(fixtures, 'semi-public'), []);
 });
 

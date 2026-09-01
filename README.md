@@ -81,7 +81,7 @@ npm test
 
 - `public`：公益站
 - `semi-public`：半公益
-- `router`：付费中转站
+- `paid`：付费中转站
 - `agent`：Agent 智能体
 
 可用状态值：

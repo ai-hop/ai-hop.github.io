@@ -16,7 +16,7 @@
     <a class="skip-link" href="#directory">跳到站点列表</a>
     <div class="page-shell" id="app">
       <header class="site-header">
-        <a class="brand" href="./" aria-label="AI Hop 首页">
+        <a class="brand" href="./">
           <span class="brand-mark" aria-hidden="true">AH</span>
           <span class="brand-name">AI Hop</span>
         </a>
@@ -30,21 +30,23 @@
         <section class="directory" id="directory" aria-labelledby="directory-title">
           <div class="section-heading">
             <div>
+              <p class="section-kicker">COMMUNITY DIRECTORY / 2026</p>
               <h1 id="directory-title">找到适合你的 AI 站点</h1>
+              <p class="section-intro">把注册福利、模型覆盖和使用门槛放在一起；福利信息下面单独标注验证记录时间。</p>
             </div>
           </div>
 
           <nav class="category-tabs" id="category-tabs" aria-label="站点类型">
-            <button class="category-tab is-active" type="button" data-category="public" aria-selected="true">
+            <button class="category-tab is-active" type="button" data-category="public" aria-pressed="true">
               <span>公益站</span><small data-count="public">0</small>
             </button>
-            <button class="category-tab" type="button" data-category="semi-public" aria-selected="false">
+            <button class="category-tab" type="button" data-category="semi-public" aria-pressed="false">
               <span>半公益</span><small data-count="semi-public">0</small>
             </button>
-            <button class="category-tab" type="button" data-category="router" aria-selected="false">
+            <button class="category-tab" type="button" data-category="router" aria-pressed="false">
               <span>付费中转站</span><small data-count="router">0</small>
             </button>
-            <button class="category-tab" type="button" data-category="agent" aria-selected="false">
+            <button class="category-tab" type="button" data-category="agent" aria-pressed="false">
               <span>Agent智能体</span><small data-count="agent">0</small>
             </button>
           </nav>
@@ -95,7 +97,7 @@
           <ul class="provider-list" id="provider-list" aria-label="提供商列表"></ul>
           <div class="empty-state is-hidden" id="empty-state" role="status">
             <span class="empty-number">—</span>
-            <h3 id="empty-title">这里还没有站点</h3>
+            <h2 id="empty-title">这里还没有站点</h2>
             <p id="empty-copy">这个分类暂未收录站点，之后会继续补充。</p>
           </div>
         </section>

@@ -24,6 +24,7 @@ export const providers = [
     models: ['claude-opus-4.8', 'gpt-5.6-sol', 'gemini-2.5-pro'],
     modelTypes: ['OpenAI', 'Claude'],
     benefitTypes: ['注册赠送', '每日签到'],
+    benefitVerifiedAt: '2026-09-01',
     rates: [
       { model: 'gpt', rate: '1x' },
       { model: 'claude', rate: '1x' },
@@ -42,6 +43,7 @@ export const providers = [
     models: ['claude-opus-5', 'claude-opus-4.8', 'gpt-5.6-sol', 'deepseek-v4-flash', 'glm-5.3'],
     modelTypes: ['OpenAI', 'Claude'],
     benefitTypes: ['注册赠送', '每日签到'],
+    benefitVerifiedAt: '2026-09-01',
     rates: [
       { model: 'gpt', rate: '1x' },
       { model: 'claude', rate: '1x' },
@@ -60,6 +62,7 @@ export const providers = [
     models: ['claude-opus-5', 'claude-opus-4.8'],
     modelTypes: ['Claude'],
     benefitTypes: ['注册赠送', '邀请返利'],
+    benefitVerifiedAt: '2026-09-01',
     rates: [
       { model: 'claude', rate: '1x' },
     ],
@@ -77,6 +80,7 @@ export const providers = [
     models: ['claude系列'],
     modelTypes: ['Claude'],
     benefitTypes: ['注册赠送', '邀请返利'],
+    benefitVerifiedAt: '2026-09-01',
     rates: [
       { model: 'claude', rate: '1x' },
     ],
@@ -94,6 +98,7 @@ export const providers = [
     models: ['claude-opus-5', 'claude-opus-4.8'],
     modelTypes: ['Claude'],
     benefitTypes: ['注册赠送', '邀请返利', '每日签到'],
+    benefitVerifiedAt: '2026-09-01',
     rates: [
       { model: 'claude', rate: '1x' },
     ],
@@ -111,6 +116,7 @@ export const providers = [
     models: ['美国大豆包系列', 'gemini-3.7-flash'],
     modelTypes: ['Gemini'],
     benefitTypes: ['注册赠送', '每日签到'],
+    benefitVerifiedAt: '2026-09-01',
     rates: [
       { model: 'gemini', rate: '1x' },
     ],
@@ -128,6 +134,7 @@ export const providers = [
     models: ['gpt系列'],
     modelTypes: ['OpenAI'],
     benefitTypes: ['注册赠送', '每日签到'],
+    benefitVerifiedAt: '2026-09-01',
     requirements: '限制：积分有使用期限',
     note: '',
   },
@@ -142,8 +149,9 @@ export const providers = [
     models: ['gpt系列', '国模系列'],
     modelTypes: ['OpenAI', '国产模型'],
     benefitTypes: [],
+    benefitVerifiedAt: '2026-09-01',
     rates: [
-      { model: 'gpt', rate: '5x' },
+      { model: 'gpt', rate: '3x' },
       { model: '国模', rate: '0.1-6x' },
     ],
     requirements: '限制：支持邮箱和 LinuxDo 注册，使用 LDC 充值',
@@ -160,6 +168,7 @@ export const providers = [
     models: ['gpt-image-2', '国模系列'],
     modelTypes: ['OpenAI', '国产模型', '生图模型'],
     benefitTypes: ['邀请返利', '每日签到', '其他'],
+    benefitVerifiedAt: '2026-09-01',
     rates: [
       { model: '生图', rate: '10/次' },
       { model: '模型', rate: '0.1/次' },
@@ -178,6 +187,7 @@ export const providers = [
     models: ['claude-opus-5', 'claude-opus-4-8', 'gpt-5.6-sol', 'gpt-5.6-luna', 'gpt-5.6-terra'],
     modelTypes: ['OpenAI', 'Claude'],
     benefitTypes: ['限时活动'],
+    benefitVerifiedAt: '2026-09-01',
     rates: [
       { model: 'gpt', rate: '1-4x' },
       { model: 'claude', rate: '1-7x' },
@@ -196,6 +206,7 @@ export const providers = [
     models: ['claude系列', 'gpt系列'],
     modelTypes: ['OpenAI', 'Claude'],
     benefitTypes: ['注册赠送', '低倍率'],
+    benefitVerifiedAt: '2026-09-01',
     rates: [
       { model: 'gpt', rate: '1x' },
       { model: 'claude', rate: '0.3x' },
@@ -214,6 +225,7 @@ export const providers = [
     models: ['claude-sonnet-4.6', 'gpt-5.6-luna', 'deepseek-v4-flash'],
     modelTypes: ['OpenAI', 'Claude', '国产模型'],
     benefitTypes: ['注册赠送', '每日签到'],
+    benefitVerifiedAt: '2026-09-01',
     requirements: '限制：国外网站，免费用户需要加入 Discord 解锁模型',
     note: '',
   },
@@ -228,6 +240,7 @@ export const providers = [
     models: ['claude系列', 'gpt系列', 'gemini系列'],
     modelTypes: ['OpenAI', 'Claude', 'Gemini'],
     benefitTypes: ['注册赠送', '邀请返利', '每日签到(0-2刀)'],
+    benefitVerifiedAt: '2026-09-01',
     rates: [
       { model: 'claude', rate: '1x' },
       { model: 'gpt', rate: '1x' },
@@ -247,6 +260,7 @@ export const providers = [
     models: ['claude系列', 'gpt系列', 'gemini系列'],
     modelTypes: ['OpenAI', 'Claude', 'Gemini'],
     benefitTypes: ['注册赠送', '每日签到'],
+    benefitVerifiedAt: '2026-09-01',
     requirements: '限制：需要绑定手机号',
     note: '',
   },
@@ -261,6 +275,7 @@ export const providers = [
     models: ['Claude系列', 'GPT系列', '国模系列'],
     modelTypes: ['OpenAI', 'Claude', '国产模型'],
     benefitTypes: ['低倍率'],
+    benefitVerifiedAt: '2026-09-01',
     rates: [
       { model: 'Claude', rate: '1x' },
       { model: 'GPT', rate: '1x' },
@@ -280,6 +295,7 @@ export const providers = [
     models: ['claude系列', 'gpt系列', 'gemini系列', '国模系列'],
     modelTypes: ['OpenAI', 'Claude', 'Gemini', '国产模型'],
     benefitTypes: ['注册赠送', '邀请返利', '每日签到'],
+    benefitVerifiedAt: '2026-09-01',
     rates: [
       { model: 'claude', rate: '按次' },
       { model: 'gpt', rate: '按次' },
@@ -300,6 +316,7 @@ export const providers = [
     models: ['claude系列', 'gpt系列', 'gemini系列', '国模系列'],
     modelTypes: ['OpenAI', 'Claude', 'Gemini', '国产模型'],
     benefitTypes: ['注册赠送', '邀请返利', '低倍率'],
+    benefitVerifiedAt: '2026-09-01',
     rates: [
       { model: '体验', rate: '50x' },
       { model: '充值后', rate: '13x' },
@@ -318,6 +335,7 @@ export const providers = [
     models: ['claude系列', 'gpt系列', 'gemini系列'],
     modelTypes: ['OpenAI', 'Claude', 'Gemini'],
     benefitTypes: ['注册赠送', '邀请返利', '低倍率'],
+    benefitVerifiedAt: '2026-09-01',
     rates: [
       { model: 'agnes', rate: '0x' },
       { model: 'gpt', rate: '0.066-0.35x' },
@@ -337,6 +355,7 @@ export const providers = [
     models: ['gpt系列'],
     modelTypes: ['OpenAI'],
     benefitTypes: ['注册赠送', '低倍率', '其他'],
+    benefitVerifiedAt: '2026-09-01',
     rates: [
       { model: 'gpt', rate: '1x' },
     ],
@@ -354,6 +373,7 @@ export const providers = [
     models: ['Hy系列', 'GLM系列', 'Kimi系列', 'MiniMax-M3', 'DeepSeek V4'],
     modelTypes: ['国产模型'],
     benefitTypes: ['注册赠送', '邀请返利', '其他'],
+    benefitVerifiedAt: '2026-09-01',
     requirements: '限制：积分有使用期限',
     note: '',
   },

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { filterProviders, formatRequirements, matchesProvider, normalizeText, sortByStatus } from '../app.js';
+import { filterProviders, formatRequirements, formatVerificationDate, matchesProvider, matchesTaxonomy, normalizeText, sortByStatus } from '../app.js';
 
 const fixtures = [
   {
@@ -65,6 +65,17 @@ test('matches model names and model type filters', () => {
   assert.equal(matchesProvider(fixtures[0], 'claude opus', {}), true);
   assert.equal(matchesProvider(fixtures[0], '', { modelType: 'Claude' }), true);
   assert.equal(matchesProvider(fixtures[0], '', { modelType: 'Gemini' }), false);
+});
+
+test('matches taxonomy filters with compact variants', () => {
+  assert.equal(matchesTaxonomy(['每日签到(0-2刀)'], '每日签到'), true);
+  assert.equal(matchesTaxonomy(['Claude'], 'OpenAI'), false);
+});
+
+test('formats benefit verification dates to day precision', () => {
+  assert.equal(formatVerificationDate('2026-09-01'), '2026.09.01');
+  assert.equal(formatVerificationDate('2026-09-01 11:23'), '2026.09.01');
+  assert.equal(formatVerificationDate(null), '待核验');
 });
 
 test('matches benefits, requirements, and notes', () => {

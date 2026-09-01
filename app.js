@@ -59,12 +59,24 @@ export function benefitText(benefit) {
   return typeof benefit === 'string' ? benefit : String(benefit?.text ?? '');
 }
 
+export function formatVerificationDate(value) {
+  if (!value) return '待核验';
+  const match = String(value).match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (!match) return String(value);
+  return `${match[1]}.${match[2]}.${match[3]}`;
+}
+
 export function isExpiredBenefit(benefit) {
   return Boolean(benefit) && typeof benefit === 'object' && Boolean(benefit.expired);
 }
 
-function arrayIncludesNormalized(values, target) {
-  return Array.isArray(values) && values.some((value) => normalizeText(value) === normalizeText(target));
+export function matchesTaxonomy(values, target) {
+  const normalizedTarget = normalizeText(target);
+  if (!normalizedTarget || !Array.isArray(values)) return false;
+  return values.some((value) => {
+    const normalizedValue = normalizeText(value);
+    return normalizedValue === normalizedTarget || normalizedValue.startsWith(normalizedTarget);
+  });
 }
 
 export function matchesProvider(provider, query = '', filters = {}) {
@@ -80,8 +92,8 @@ export function matchesProvider(provider, query = '', filters = {}) {
 
   const queryMatches = !normalizedQuery || searchableContent.includes(normalizedQuery);
   const statusMatches = !filters.status || filters.status === 'all' || provider.status === filters.status;
-  const modelMatches = !filters.modelType || filters.modelType === 'all' || arrayIncludesNormalized(provider.modelTypes, filters.modelType);
-  const benefitMatches = !filters.benefitType || filters.benefitType === 'all' || arrayIncludesNormalized(provider.benefitTypes, filters.benefitType);
+  const modelMatches = !filters.modelType || filters.modelType === 'all' || matchesTaxonomy(provider.modelTypes, filters.modelType);
+  const benefitMatches = !filters.benefitType || filters.benefitType === 'all' || matchesTaxonomy(provider.benefitTypes, filters.benefitType);
 
   return queryMatches && statusMatches && modelMatches && benefitMatches;
 }
@@ -157,12 +169,21 @@ if (domAvailable) {
 
   function ratingMarkup(rating) {
     const value = ratingValue(rating);
-    return `<span class="provider-rating" aria-label="推荐程度：${value} 星"><span aria-hidden="true">${'★'.repeat(value)}${'☆'.repeat(5 - value)}</span></span>`;
+    return `<span class="provider-rating" role="img" aria-label="推荐程度：${value} 星"><span aria-hidden="true">${'★'.repeat(value)}${'☆'.repeat(5 - value)}</span></span>`;
+  }
+
+  function verificationMarkup(provider) {
+    const isVerified = Boolean(provider.benefitVerifiedAt);
+    return `<p class="verification-meta ${isVerified ? 'is-verified' : 'is-pending'}">
+      <span class="verification-mark" aria-hidden="true">${isVerified ? '✓' : '↻'}</span>
+      <span class="verification-label">福利验证</span>
+      <strong>${escapeHtml(formatVerificationDate(provider.benefitVerifiedAt))}</strong>
+    </p>`;
   }
 
   function providerCard(provider, index) {
-    const benefits = provider.benefits.map((benefit) => {
-      const isExpired = Boolean(benefit && typeof benefit === 'object' && benefit.expired);
+    const benefits = (provider.benefits || []).map((benefit) => {
+      const isExpired = isExpiredBenefit(benefit);
       return `<li${isExpired ? ' class="benefit-expired"' : ''}>${escapeHtml(benefitText(benefit))}${isExpired ? '<span class="sr-only">（已结束）</span>' : ''}</li>`;
     }).join('');
     const models = Array.isArray(provider.models) ? provider.models : [];
@@ -183,7 +204,6 @@ if (domAvailable) {
       : '';
     const optionalInfo = [...formatRequirements(provider.requirements), provider.note]
       .filter(Boolean)
-      .filter(Boolean)
       .map((content) => `<p class="provider-detail">${escapeHtml(content)}</p>`)
       .join('');
 
@@ -191,15 +211,16 @@ if (domAvailable) {
       <li class="provider-card" style="--card-index: ${index}">
         <div class="provider-topline">
           <div class="name-line">
-            <h3>${escapeHtml(provider.name)}</h3>
+            <h2>${escapeHtml(provider.name)}</h2>
             <span class="status-badge ${statusClass[provider.status]}"><span></span>${escapeHtml(statuses[provider.status])}</span>
             ${ratingMarkup(provider.rating)}
           </div>
           <a class="visit-button" href="${escapeHtml(provider.url)}" target="_blank" rel="noopener noreferrer">
-            <span>访问</span><span class="arrow" aria-hidden="true">↗</span>
+            <span>打开站点</span><span class="arrow" aria-hidden="true">↗</span>
           </a>
         </div>
         <ul class="benefit-list">${benefits}</ul>
+        ${verificationMarkup(provider)}
         <div class="provider-models">
           <span class="models-label">模型</span>
           ${modelContent}
@@ -218,6 +239,27 @@ if (domAvailable) {
     });
   }
 
+  function activeFilterLabels() {
+    return [
+      state.query ? `“${state.query}”` : '',
+      state.status !== 'all' ? statuses[state.status] : '',
+      state.modelType !== 'all' ? state.modelType : '',
+      state.benefitType !== 'all' ? state.benefitType : '',
+    ].filter(Boolean);
+  }
+
+  function syncControls() {
+    elements.search.value = state.query;
+    elements.status.value = state.status;
+    elements.model.value = state.modelType;
+    elements.benefit.value = state.benefitType;
+    elements.tabs.querySelectorAll('[data-category]').forEach((tab) => {
+      const isActive = tab.dataset.category === state.activeCategory;
+      tab.classList.toggle('is-active', isActive);
+      tab.setAttribute('aria-pressed', String(isActive));
+    });
+  }
+
   function render() {
     const filters = {
       status: state.status,
@@ -228,6 +270,7 @@ if (domAvailable) {
     const visibleProviders = filterProviders(providers, state.activeCategory, state.query, filters);
     const isEmptyCategory = categoryProviders.length === 0;
     const isFilteredEmpty = !isEmptyCategory && visibleProviders.length === 0;
+    const filterLabels = activeFilterLabels();
 
     elements.list.innerHTML = visibleProviders.map(providerCard).join('');
     elements.list.classList.toggle('is-hidden', visibleProviders.length === 0);
@@ -238,13 +281,9 @@ if (domAvailable) {
       : '试试换个关键词，或清除当前筛选条件。';
     elements.summary.textContent = isEmptyCategory
       ? `${categories[state.activeCategory]} · 暂无收录`
-      : `显示 ${visibleProviders.length} 个站点 · ${categories[state.activeCategory]}`;
+      : `显示 ${visibleProviders.length} 个站点 · ${categories[state.activeCategory]}${filterLabels.length ? ` · ${filterLabels.join(' · ')}` : ''}`;
     elements.clear.classList.toggle('is-hidden', !hasActiveFilter());
-    elements.tabs.querySelectorAll('[data-category]').forEach((tab) => {
-      const isActive = tab.dataset.category === state.activeCategory;
-      tab.classList.toggle('is-active', isActive);
-      tab.setAttribute('aria-selected', String(isActive));
-    });
+    syncControls();
 
     if (isFilteredEmpty) elements.empty.scrollIntoView?.({ block: 'nearest', behavior: 'smooth' });
   }
@@ -273,10 +312,6 @@ if (domAvailable) {
     state.status = 'all';
     state.modelType = 'all';
     state.benefitType = 'all';
-    elements.search.value = '';
-    elements.status.value = 'all';
-    elements.model.value = 'all';
-    elements.benefit.value = 'all';
     render();
     elements.search.focus();
   });

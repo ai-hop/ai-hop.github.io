@@ -79,6 +79,54 @@ test('formats benefit verification dates to day precision', () => {
   assert.equal(formatVerificationDate(null), '待核验');
 });
 
+test('contains the Cheap semi-public provider with the requested offer', () => {
+  const cheap = providers.find((provider) => provider.id === 'cheap');
+
+  assert.deepEqual(cheap, {
+    id: 'cheap',
+    name: 'Cheap',
+    url: 'https://api.cheapcodex.online/register?aff=6LWZFYLHC8FY',
+    category: 'semi-public',
+    status: 'average',
+    rating: 3,
+    benefits: ['注册送20刀', '每日签到20刀'],
+    models: ['gpt系列'],
+    modelTypes: ['OpenAI'],
+    benefitTypes: ['注册赠送', '每日签到', '低倍率'],
+    benefitVerifiedAt: '2026-09-01',
+    rates: [
+      { model: 'gpt', rate: '2.5x' },
+    ],
+    requirements: '限制：倍率略高',
+    note: '',
+  });
+});
+
+test('contains the Abinapi paid provider with the requested offer', () => {
+  const abinapi = providers.find((provider) => provider.id === 'abinapi');
+
+  assert.deepEqual(abinapi, {
+    id: 'abinapi',
+    name: 'Abinapi',
+    url: 'https://www.abinapi.com/sign-up?aff=8Vpm',
+    category: 'paid',
+    status: 'average',
+    rating: 3,
+    benefits: ['进群领15元体验金'],
+    models: ['claude系列', 'gpt系列', '国模系列'],
+    modelTypes: ['Claude', 'OpenAI', '国产模型'],
+    benefitTypes: ['其他', '低倍率'],
+    benefitVerifiedAt: '2026-09-01',
+    rates: [
+      { model: 'gpt', rate: '0.2-1x' },
+      { model: 'claude', rate: '1.1-10x' },
+      { model: '国模', rate: '0.2-5.5x' },
+    ],
+    requirements: '限制：需进群领取15元体验金',
+    note: '',
+  });
+});
+
 test('contains the Geili paid provider with the requested offer', () => {
   const geili = providers.find((provider) => provider.id === 'geili');
 
@@ -89,7 +137,7 @@ test('contains the Geili paid provider with the requested offer', () => {
     category: 'paid',
     status: 'average',
     rating: 3,
-    benefits: ['使用邀请码进群20刀额度券（获取截止：2026.09.18 18:00）'],
+    benefits: ['使用邀请码进群领20刀额度券（获取截止：2026.09.1 14:00）'],
     models: ['claude系列', 'gpt系列', '国模系列'],
     modelTypes: ['Claude', 'OpenAI', '国产模型'],
     benefitTypes: ['邀请返利', '低倍率'],

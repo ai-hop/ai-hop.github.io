@@ -86,6 +86,7 @@ export function matchesProvider(provider, query = '', filters = {}) {
     provider.requirements,
     provider.note,
     ...(provider.benefits || []).map(benefitText),
+    ...(provider.tags || []),
     ...(provider.rates || []).flatMap((entry) => [entry.model, entry.rate]),
   ].map(normalizeText).join(' ');
   const normalizedQuery = normalizeText(query);
@@ -192,11 +193,9 @@ if (domAvailable) {
 
   function verificationMarkup(provider) {
     const isVerified = Boolean(provider.benefitVerifiedAt);
-    return `<p class="verification-meta ${isVerified ? 'is-verified' : 'is-pending'}">
-      <span class="verification-mark" aria-hidden="true">${isVerified ? '✓' : '↻'}</span>
-      <span class="verification-label">福利验证</span>
-      <strong>${escapeHtml(formatVerificationDate(provider.benefitVerifiedAt))}</strong>
-    </p>`;
+    const date = formatVerificationDate(provider.benefitVerifiedAt);
+    const label = isVerified ? `福利验证时间：${date}` : '福利待核验';
+    return `<span class="verification-date ${isVerified ? 'is-verified' : 'is-pending'}" role="img" tabindex="0" aria-label="${escapeHtml(label)}" data-tooltip="${escapeHtml(label)}">${escapeHtml(date)}</span>`;
   }
 
   function providerCard(provider, index) {
@@ -229,17 +228,21 @@ if (domAvailable) {
       <li class="provider-card" style="--card-index: ${index}">
         <div class="provider-topline">
           <div class="name-line">
-            <h2>${escapeHtml(provider.name)}</h2>
-            <span class="status-badge ${statusClass[provider.status]}">${escapeHtml(statuses[provider.status])}</span>
-            ${ratingMarkup(provider.rating)}
-            ${providerHighlightsMarkup(provider)}
+            <div class="provider-name-row">
+              <h2>${escapeHtml(provider.name)}</h2>
+              ${verificationMarkup(provider)}
+            </div>
+            <div class="provider-meta">
+              <span class="status-badge ${statusClass[provider.status]}">${escapeHtml(statuses[provider.status])}</span>
+              ${ratingMarkup(provider.rating)}
+              ${providerHighlightsMarkup(provider)}
+            </div>
           </div>
           <a class="visit-button" href="${escapeHtml(provider.url)}" target="_blank" rel="noopener noreferrer">
             <span>打开站点</span><span class="arrow" aria-hidden="true">↗</span>
           </a>
         </div>
         <ul class="benefit-list">${benefits}</ul>
-        ${verificationMarkup(provider)}
         <div class="provider-models">
           <span class="models-label">模型</span>
           ${modelContent}

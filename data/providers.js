@@ -209,7 +209,7 @@ export const providers = [
     modelTypes: ['OpenAI', 'Claude', 'Gemini', '国产模型', '生图模型'],
     benefitTypes: ['注册赠送', '邀请返利', '每日签到'],
     benefitVerifiedAt: '2026-09-02',
-    requirements: '限制：仅支持QQ邮箱注册，公益模型可用，付费模型需解锁',
+    requirements: '限制：仅支持QQ邮箱注册，公益模型可用，付费模型需解锁，签到额度当前有效',
     note: '',
   },
   {

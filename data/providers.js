@@ -239,7 +239,7 @@ export const providers = [
     status: 'average',
     rating: 3,
     tags: ['小贵'],
-    benefits: ['注册送20刀', '每日签到20刀'],
+    benefits: ['注册送20刀', { text: '每日登录20刀', expired: true }],
     models: ['gpt系列'],
     modelTypes: ['OpenAI'],
     benefitTypes: ['注册赠送', '每日签到', '低倍率'],

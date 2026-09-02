@@ -243,11 +243,11 @@ export const providers = [
     models: ['gpt系列'],
     modelTypes: ['OpenAI'],
     benefitTypes: ['注册赠送', '每日签到', '低倍率'],
-    benefitVerifiedAt: '2026-09-01',
+    benefitVerifiedAt: '2026-09-02',
     rates: [
       { model: 'gpt', rate: '2.5x' },
     ],
-    requirements: '限制：倍率略高',
+    requirements: '限制：倍率略高，已禁止注册',
     note: '',
   },
   {

@@ -79,6 +79,29 @@ test('formats benefit verification dates to day precision', () => {
   assert.equal(formatVerificationDate(null), '待核验');
 });
 
+test('contains the Panda API semi-public provider with the requested offer', () => {
+  const panda = providers.find((provider) => provider.id === 'panda-api');
+
+  assert.deepEqual(panda, {
+    id: 'panda-api',
+    name: '熊猫API',
+    url: 'https://api520.pro/register?aff=rHDN',
+    category: 'semi-public',
+    status: 'recommended',
+    rating: 5,
+    benefits: ['注册送100刀', '使用邀请码额外赠送100刀'],
+    models: ['全模型'],
+    modelTypes: ['OpenAI', 'Claude', 'Gemini', '国产模型', '生图模型'],
+    benefitTypes: ['注册赠送', '邀请返利'],
+    benefitVerifiedAt: '2026-09-05',
+    rates: [
+      { model: '全模型', rate: '1x' },
+    ],
+    requirements: '限制：只能使用QQ邮箱注册',
+    note: '',
+  });
+});
+
 test('contains the Cheap semi-public provider with the requested offer', () => {
   const cheap = providers.find((provider) => provider.id === 'cheap');
 

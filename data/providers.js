@@ -188,11 +188,11 @@ export const providers = [
     models: ['gpt-5.5', 'gpt-5.6-sol'],
     modelTypes: ['OpenAI'],
     benefitTypes: ['注册赠送', '每日签到'],
-    benefitVerifiedAt: '2026-09-03',
+    benefitVerifiedAt: '2026-09-08',
     rates: [
       { model: 'gpt', rate: '1x' },
     ],
-    requirements: '',
+    requirements: '限制：需绑定GitHub或教育邮箱才能正常使用',
     note: '',
   },
   {

@@ -102,6 +102,35 @@ test('contains the Abnormal Furong public provider with the requested offer', ()
   });
 });
 
+test('contains the Searchix public search provider with the requested offer', () => {
+  const searchix = providers.find((provider) => provider.id === 'searchix');
+
+  assert.deepEqual(searchix, {
+    id: 'searchix',
+    name: 'Searchix',
+    url: 'https://search.604020.xyz/register?aff=WVTXEU6S',
+    category: 'public',
+    status: 'unknown',
+    rating: 3,
+    benefits: ['每日0点自动发放2.4刀余额'],
+    models: ['Tavily', 'Serper'],
+    modelTypes: [],
+    benefitTypes: ['每日发放'],
+    benefitVerifiedAt: '2026-09-08',
+    rates: [],
+    requirements: '限制：目前只能使用 Tavily 和 Serper，不能使用 Exa；支持 LDC 充值',
+    note: '',
+  });
+});
+
+test('matches Searchix supported search services and restrictions', () => {
+  const searchix = providers.find((provider) => provider.id === 'searchix');
+
+  assert.equal(matchesProvider(searchix, 'Tavily', {}), true);
+  assert.equal(matchesProvider(searchix, 'Serper', {}), true);
+  assert.equal(matchesProvider(searchix, 'Exa', {}), true);
+  assert.equal(matchesProvider(searchix, 'LDC', {}), true);
+});
 test('contains the Panda API semi-public provider with the requested offer', () => {
   const panda = providers.find((provider) => provider.id === 'panda-api');
 

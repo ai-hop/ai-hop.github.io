@@ -79,6 +79,29 @@ test('formats benefit verification dates to day precision', () => {
   assert.equal(formatVerificationDate(null), '待核验');
 });
 
+test('contains the Abnormal Furong public provider with the requested offer', () => {
+  const furong = providers.find((provider) => provider.id === 'yichang-furong');
+
+  assert.deepEqual(furong, {
+    id: 'yichang-furong',
+    name: '异常芙蓉',
+    url: 'https://ai.kscsnkli.site/sign-up?aff=SSiE',
+    category: 'public',
+    status: 'unknown',
+    rating: 3,
+    benefits: ['注册赠送876,000额度', '使用邀请码额外赠送1,460额度', '每日签到随机额度', '论坛任务'],
+    models: ['全模型'],
+    modelTypes: ['OpenAI', 'Claude', 'Gemini', '国产模型', '生图模型'],
+    benefitTypes: ['注册赠送', '邀请返利', '每日签到', '其他'],
+    benefitVerifiedAt: '2026-09-05',
+    rates: [
+      { model: '全模型', rate: '0.01-99x' },
+    ],
+    requirements: '限制：只能使用QQ、Gmail或论坛注册',
+    note: '',
+  });
+});
+
 test('contains the Panda API semi-public provider with the requested offer', () => {
   const panda = providers.find((provider) => provider.id === 'panda-api');
 

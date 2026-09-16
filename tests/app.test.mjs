@@ -79,6 +79,27 @@ test('formats benefit verification dates to day precision', () => {
   assert.equal(formatVerificationDate(null), '待核验');
 });
 
+test('contains the Y-API paid provider with the requested offer', () => {
+  const yApi = providers.find((provider) => provider.id === 'y-api');
+
+  assert.deepEqual(yApi, {
+    id: 'y-api',
+    name: 'Y-API',
+    url: 'https://y-api.bestvirtualgoods.com/i/2M6C3UT7',
+    category: 'paid',
+    status: 'average',
+    rating: 3,
+    benefits: ['注册送1刀', 'DeepSeek V4 Flash 限时免费'],
+    models: ['国模系列'],
+    modelTypes: ['国产模型'],
+    benefitTypes: ['注册赠送', '限时活动'],
+    benefitVerifiedAt: '2026-09-08',
+    rates: [],
+    requirements: '',
+    note: '',
+  });
+});
+
 test('contains the Searchix public search provider with the requested offer', () => {
   const searchix = providers.find((provider) => provider.id === 'searchix');
 

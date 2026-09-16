@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { filterProviders, formatRequirements, formatVerificationDate, matchesProvider, matchesTaxonomy, normalizeText, sortByStatus } from '../app.js';
-import { providers } from '../data/providers.js';
+import { categories, providers } from '../data/providers.js';
 
 const fixtures = [
   {
@@ -247,6 +247,75 @@ test('contains the Geili paid provider with the requested offer', () => {
     requirements: '限制：需使用邀请码并进群领取额度券',
     note: '',
   });
+});
+
+test('contains the Nianhua paid provider with the requested offer', () => {
+  const nianhua = providers.find((provider) => provider.id === 'nianhua-ai');
+
+  assert.deepEqual(nianhua, {
+    id: 'nianhua-ai',
+    name: '年华AI',
+    url: 'https://us-3.nianhuaapi.com/sign-up?aff=lPAS',
+    category: 'paid',
+    status: 'unknown',
+    rating: 3,
+    benefits: ['使用邀请码赠送10刀', '每天签到随机额度'],
+    models: ['claude系列', 'gpt系列', 'gemini系列'],
+    modelTypes: ['Claude', 'OpenAI', 'Gemini'],
+    benefitTypes: ['邀请返利', '每日签到', '低倍率'],
+    benefitVerifiedAt: '2026-09-16',
+    rates: [
+      { model: 'gpt', rate: '0.05-5x' },
+      { model: 'claude', rate: '0.05-5x' },
+      { model: 'gemini', rate: '0.05-5x' },
+    ],
+    requirements: '',
+    note: '',
+  });
+});
+
+test('groups the retired providers under the unavailable category', () => {
+  const movedIds = ['tabiai', 'kktoken-ai', 'justdowork', 'yetoken'];
+
+  assert.equal(categories.unavailable, '不可用');
+  assert.deepEqual(
+    filterProviders(providers, 'unavailable').map((provider) => provider.id).sort(),
+    [...movedIds].sort(),
+  );
+});
+
+test('keeps the moved providers out of the public category', () => {
+  const publicIds = filterProviders(providers, 'public').map((provider) => provider.id);
+
+  ['tabiai', 'kktoken-ai', 'justdowork', 'yetoken'].forEach((id) => {
+    assert.equal(publicIds.includes(id), false, `${id} should no longer be listed under public`);
+    assert.equal(providers.find((provider) => provider.id === id).category, 'unavailable');
+  });
+});
+
+test('keeps every declared benefit a non-empty value', () => {
+  providers.forEach((provider) => {
+    (provider.benefits || []).forEach((benefit, index) => {
+      assert.notEqual(benefit, undefined, `${provider.id} benefits[${index}] is a sparse hole`);
+      assert.notEqual(benefit, null, `${provider.id} benefits[${index}] is null`);
+    });
+  });
+});
+
+test('counts every category against the tab registry', () => {
+  assert.deepEqual(Object.keys(categories).sort(), ['agent', 'paid', 'public', 'semi-public', 'unavailable']);
+  Object.keys(categories).forEach((category) => {
+    const count = providers.filter((provider) => provider.category === category).length;
+    assert.ok(count >= 0, `${category} count should be numeric`);
+  });
+});
+
+test('filters the unavailable category by its retained attributes', () => {
+  assert.equal(matchesProvider(providers.find((provider) => provider.id === 'yetoken'), '国模系列', {}), true);
+  assert.equal(
+    filterProviders(providers, 'unavailable', '', { modelType: 'Claude' }).some((provider) => provider.id === 'tabiai'),
+    true,
+  );
 });
 
 test('matches benefits, requirements, and notes', () => {

@@ -274,6 +274,30 @@ test('contains the Nianhua paid provider with the requested offer', () => {
   });
 });
 
+test('contains the dudu public provider with the requested offer', () => {
+  const dudu = providers.find((provider) => provider.id === 'dudu');
+
+  assert.deepEqual(dudu, {
+    id: 'dudu',
+    name: 'dudu公益',
+    url: 'https://wududu.edu.kg/sign-up?aff=NGWA',
+    category: 'public',
+    status: 'recommended',
+    rating: 5,
+    benefits: ['注册赠送200刀'],
+    models: ['gemini系列', '国模系列'],
+    modelTypes: ['Gemini', '国产模型'],
+    benefitTypes: ['注册赠送'],
+    benefitVerifiedAt: '2026-09-16',
+    rates: [
+      { model: 'gemini', rate: '1x' },
+      { model: '国模', rate: '1x' },
+    ],
+    requirements: '限制：只能使用Github注册',
+    note: '',
+  });
+});
+
 test('groups the retired providers under the unavailable category', () => {
   const movedIds = ['tabiai', 'kktoken-ai', 'justdowork', 'yetoken'];
 

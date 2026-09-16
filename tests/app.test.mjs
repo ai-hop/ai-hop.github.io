@@ -100,23 +100,46 @@ test('contains the Y-API paid provider with the requested offer', () => {
   });
 });
 
+test('contains the Abnormal Furong public provider with the requested offer', () => {
+  const furong = providers.find((provider) => provider.id === 'yichang-furong');
+
+  assert.deepEqual(furong, {
+    id: 'yichang-furong',
+    name: '异常芙蓉',
+    url: 'https://ai.kscsnkli.site/sign-up?aff=SSiE',
+    category: 'public',
+    status: 'unknown',
+    rating: 3,
+    benefits: ['注册赠送876,000额度', '使用邀请码额外赠送1,460额度', '每日签到随机额度', '论坛任务'],
+    models: ['全模型'],
+    modelTypes: ['OpenAI', 'Claude', 'Gemini', '国产模型', '生图模型'],
+    benefitTypes: ['注册赠送', '邀请返利', '每日签到', '其他'],
+    benefitVerifiedAt: '2026-09-05',
+    rates: [
+      { model: '全模型', rate: '0.01-99x' },
+    ],
+    requirements: '限制：只能使用QQ、Gmail或论坛注册',
+    note: '',
+  });
+});
+
 test('contains the Searchix public search provider with the requested offer', () => {
   const searchix = providers.find((provider) => provider.id === 'searchix');
 
   assert.deepEqual(searchix, {
     id: 'searchix',
-    name: 'Searchix',
+    name: 'Searchix(AI搜索)',
     url: 'https://search.604020.xyz/register?aff=WVTXEU6S',
     category: 'public',
-    status: 'unknown',
-    rating: 3,
-    benefits: ['每日0点自动发放2.4刀余额'],
+    status: 'recommended',
+    rating: 5,
+    benefits: ['每日0点自动发放2.4刀余额', '支持 LDC 充值'],
     models: ['Tavily', 'Serper'],
     modelTypes: [],
     benefitTypes: ['每日发放'],
     benefitVerifiedAt: '2026-09-08',
     rates: [],
-    requirements: '限制：目前只能使用 Tavily 和 Serper，不能使用 Exa；支持 LDC 充值',
+    requirements: '限制：目前只能使用 Tavily 和 Serper，不能使用 Exa',
     note: '',
   });
 });
@@ -129,7 +152,6 @@ test('matches Searchix supported search services and restrictions', () => {
   assert.equal(matchesProvider(searchix, 'Exa', {}), true);
   assert.equal(matchesProvider(searchix, 'LDC', {}), true);
 });
-
 test('contains the Panda API semi-public provider with the requested offer', () => {
   const panda = providers.find((provider) => provider.id === 'panda-api');
 
@@ -163,16 +185,16 @@ test('contains the Cheap semi-public provider with the requested offer', () => {
     category: 'semi-public',
     status: 'average',
     rating: 3,
-    tags: ['速度快', '小贵'],
-    benefits: ['注册送20刀', '每日签到20刀'],
+    tags: ['小贵'],
+    benefits: ['注册送20刀', { text: '每日登录20刀', expired: true }],
     models: ['gpt系列'],
     modelTypes: ['OpenAI'],
     benefitTypes: ['注册赠送', '每日签到', '低倍率'],
-    benefitVerifiedAt: '2026-09-01',
+    benefitVerifiedAt: '2026-09-02',
     rates: [
       { model: 'gpt', rate: '2.5x' },
     ],
-    requirements: '限制：倍率略高',
+    requirements: '限制：倍率略高，已禁止注册',
     note: '',
   });
 });

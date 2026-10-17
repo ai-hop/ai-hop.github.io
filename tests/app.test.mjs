@@ -298,6 +298,43 @@ test('contains the dudu public provider with the requested offer', () => {
   });
 });
 
+test('contains the l0veyou image generation provider with the requested offer', () => {
+  const l0veyou = providers.find((provider) => provider.id === 'l0veyou');
+
+  assert.deepEqual(l0veyou, {
+    id: 'l0veyou',
+    name: 'l0veyou',
+    url: 'https://l0veyou.com/chat',
+    category: 'image-gen',
+    status: 'unknown',
+    rating: 3,
+    benefits: ['可免登录使用'],
+    models: ['GPT Image2', 'GPT Image2.5', 'MinMax H3'],
+    modelTypes: ['生图模型'],
+    benefitTypes: ['其他'],
+    benefitVerifiedAt: '2026-09-16',
+    rates: [
+      { model: 'GPT Image2', rate: '1x' },
+      { model: 'GPT Image2.5', rate: '1x' },
+      { model: 'MinMax H3', rate: '1x' },
+    ],
+    requirements: '',
+    note: '',
+  });
+});
+
+test('lists image generation sites under the image-gen category', () => {
+  assert.equal(categories['image-gen'], '生图站');
+  assert.deepEqual(
+    filterProviders(providers, 'image-gen').map((provider) => provider.id),
+    ['l0veyou'],
+  );
+  assert.deepEqual(
+    filterProviders(providers, 'image-gen', '', { modelType: '生图模型' }).map((provider) => provider.id),
+    ['l0veyou'],
+  );
+});
+
 test('groups the retired providers under the unavailable category', () => {
   const movedIds = ['tabiai', 'kktoken-ai', 'justdowork', 'yetoken'];
 
@@ -327,7 +364,10 @@ test('keeps every declared benefit a non-empty value', () => {
 });
 
 test('counts every category against the tab registry', () => {
-  assert.deepEqual(Object.keys(categories).sort(), ['agent', 'paid', 'public', 'semi-public', 'unavailable']);
+  assert.deepEqual(
+    Object.keys(categories).sort(),
+    ['agent', 'image-gen', 'paid', 'public', 'semi-public', 'unavailable'],
+  );
   Object.keys(categories).forEach((category) => {
     const count = providers.filter((provider) => provider.category === category).length;
     assert.ok(count >= 0, `${category} count should be numeric`);

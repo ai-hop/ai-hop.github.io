@@ -3,6 +3,7 @@ export const categories = {
   'semi-public': '半公益',
   public: '公益站',
   agent: 'Agent智能体',
+  'image-gen': '生图站',
   unavailable: '不可用',
 };
 
@@ -658,6 +659,26 @@ export const providers = [
       { model: '国模', rate: '1x' },
     ],
     requirements: '限制：只能使用Github注册',
+    note: '',
+  },
+  {
+    id: 'l0veyou',
+    name: 'l0veyou',
+    url: 'https://l0veyou.com/chat',
+    category: 'image-gen',
+    status: 'unknown',
+    rating: 3,
+    benefits: ['可免登录使用'],
+    models: ['GPT Image2', 'GPT Image2.5', 'MinMax H3'],
+    modelTypes: ['生图模型'],
+    benefitTypes: ['其他'],
+    benefitVerifiedAt: '2026-09-16',
+    rates: [
+      { model: 'GPT Image2', rate: '1x' },
+      { model: 'GPT Image2.5', rate: '1x' },
+      { model: 'MinMax H3', rate: '1x' },
+    ],
+    requirements: '',
     note: '',
   },
   // {
